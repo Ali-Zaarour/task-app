@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import work.task.exception.config.ExceptionMessage;
+import work.task.utils.ExceptionMessage;
 import work.task.repositories.AppUserRepository;
 
 @Configuration

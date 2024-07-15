@@ -7,7 +7,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import work.task.dto.AppUserDTO;
-import work.task.exception.config.ExceptionMessage;
+import work.task.utils.ExceptionMessage;
 import work.task.payload.LoginRequest;
 import work.task.repositories.AppUserRepository;
 import work.task.utils.Constants;

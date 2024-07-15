@@ -1,4 +1,4 @@
-package work.task.exception.config;
+package work.task.utils;
 
 import lombok.experimental.UtilityClass;
 
