@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bug Tracking: Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/htmx.org@2.0.1"
+            integrity="sha384-QWGpdj554B4ETpJJC9z+ZHJcA/i59TyjxEPXiiUgN2WmTyV5OEZWCD6gQhgkdpB/"
+            crossorigin="anonymous"></script>
+    <script>
+
+        document.addEventListener('htmx:configRequest', (event) => {
+            const xhr = event.detail.xhr;
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            event.detail.parameters = JSON.stringify(data);
+        });
+
+
+        document.addEventListener('htmx:afterRequest', (event) => {
+            if (event.detail.xhr.status === 200) {
+                const token = event.detail.xhr.getResponseHeader('SECURITY_ATTRIBUTE_TOKEN');
+                if (token) {
+                    localStorage.setItem('bugTrackingToken', token);
+                    window.location.href = '/v0/task-api/auth/home-page';
+                }
+            } else {
+                alert('Authentication failed. Please check your username and password.');
+            }
+        });
+    </script>
+</head>
+<body class="bg-gray-50 h-screen flex items-center justify-center">
+<div class="w-full max-w-sm">
+    <form class="bg-white shadow-lg rounded-lg px-8 pt-6 pb-5 mb-4 border border-gray-200"
+          hx-post="/v0/task-api/unsecured/authentication"
+          hx-trigger="submit"
+          autocomplete="off">
+        <h2 class="text-2xl font-semibold mb-6 text-center text-gray-700">Bug Tracking</h2>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-semibold mb-2" for="username">Username</label>
+            <input class="shadow-sm appearance-none border border-gray-300 rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   id="username" name="username" type="text" placeholder="Username" required>
+        </div>
+        <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-semibold mb-2" for="password">Password</label>
+            <input class="shadow-sm appearance-none border border-gray-300 rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   id="password" name="password" type="password" placeholder="******************" required>
+        </div>
+        <div class="flex items-center justify-between">
+            <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold w-full py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    type="submit">Sign In
+            </button>
+        </div>
+        <div class="py-3">
+            <p class="text-center text-gray-500 text-xs">Contact your administrator for support</p>
+        </div>
+    </form>
+    <p class="text-center text-gray-500 text-xs">&copy;2024. All rights reserved.</p>
+</div>
+</body>
+</html>
