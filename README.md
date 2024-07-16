@@ -1,1 +1,1 @@
-spring + htmx
+spring + thymeleaf
